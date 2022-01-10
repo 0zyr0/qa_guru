@@ -127,7 +127,7 @@ public class AutomationPracticeTests {
         $("#submit").click();
 
 
-        //Assert
+        //Assert parameters in table
 
         $$(".table tr td").get(1).equals("Max Zero");
 
@@ -150,13 +150,6 @@ public class AutomationPracticeTests {
         $$(".table tr td").get(19).equals("NCR Noida");
 
 
-
-//        String name = $$(".table tr td").get(7).toString();
-//
-//        System.out.println(" 7 elem = " + name);
-
-//        $$(byClassName("table table-dark table-striped table-bordered table-hover"));
-
         $("#closeLargeModal").scrollTo().pressEnter();
 
 
@@ -173,18 +166,6 @@ public class AutomationPracticeTests {
 //
 //        $("#dateOfBirthInput").click();
 
-
-
-
-
-        //$("#submit").click();
-
-//        $("#output").shouldBe(visible);
-//
-//        $("#name").shouldHave(text("Alex"));
-//        $("#email").shouldHave(text("email@email.com"));
-//        $("#output #currentAddress").shouldHave(text("Some address"));
-//        $("#output").$("#permanentAddress").shouldHave(text("Another address"));
 
     }
 
