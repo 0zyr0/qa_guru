@@ -45,7 +45,6 @@ public class AutomationPracticeTests {
         $("#stateCity-wrapper").$(byText("Noida")).click();
         $("#submit").click();
 
-
         $(".table").shouldHave(text("Student Name"), text("Max Zero"));
         $(".table").shouldHave(text("Student Email"), text("ozero@mail.com"));
         $(".table").shouldHave(text("Gender"), text("Other"));
