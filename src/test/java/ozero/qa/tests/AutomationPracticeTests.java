@@ -56,7 +56,6 @@ public class AutomationPracticeTests {
         $(".table").shouldHave(text("Address"), text("www.leningrad-spb.ru"));
         $(".table").shouldHave(text("State and City"), text("NCR Noida"));
         $("#closeLargeModal").scrollTo().pressEnter();
-
     }
 
 }
