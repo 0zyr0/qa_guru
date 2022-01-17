@@ -40,6 +40,7 @@ dependencies {
 //            "org.slf4j:slf4j-simple:1.7.29")
 }
 
+//повторяется выше?
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }

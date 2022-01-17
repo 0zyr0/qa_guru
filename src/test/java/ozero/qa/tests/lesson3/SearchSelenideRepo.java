@@ -1,15 +1,19 @@
-package ozero.qa.tests;
+package ozero.qa.tests.lesson3;
 
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.WebDriverConditions.url;
 
 public class SearchSelenideRepo {
 
     @Test
-    void shouldFindSelenideRepo() {
+    void shouldFindSelenideRepoInGitHub() {
 
         //open page
         open("https://github.com/");
@@ -35,7 +39,7 @@ public class SearchSelenideRepo {
         //3. ASSERT Проверки
 
 
-        //Построение тестов (Другая версия):
+        //Построение тестов (Другая версия e2e):
         // ARRANGE (optional) Подготовка
         // ACT Действия
         // ASSERT Проверки
@@ -44,6 +48,19 @@ public class SearchSelenideRepo {
         // ASSERT Проверки
         // ACT Действия
         // ASSERT Проверки
+
+//        //сохранение значения локатора
+//        var element = $("abc");
+//
+//        element.click();
+//        element.shouldBe(visible);
+
+//        //получить текущий url страницы
+//        var url = WebDriverRunner.url();
+        //вариант 1
+        //webdriver().shouldHave(url("https://ozero.com"));
+        //вариант 2
+//        Assertions.assertEquals("https://ozero.com", url);
 
     }
 
