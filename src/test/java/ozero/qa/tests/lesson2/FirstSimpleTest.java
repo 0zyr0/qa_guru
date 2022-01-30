@@ -1,4 +1,4 @@
-package ozero.qa.tests;
+package ozero.qa.tests.lesson2;
 
 import org.junit.jupiter.api.*;
 
