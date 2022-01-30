@@ -7,7 +7,7 @@ public class Music {
     int albums;
     boolean isPopular;
 
-    public void howPopular() {
+    public void showPopular() {
         if (isPopular == true) {
             System.out.println(nameArtist + " is a popular" + " in " + countryArtist);
         }
@@ -20,7 +20,7 @@ public class Music {
         isPopular = true;
     }
 
-    public void lostPopularity() {
+    public void dropPopularity() {
         isPopular = false;
     }
 
@@ -29,7 +29,7 @@ public class Music {
     }
 
 
-    public void howManyAlbums() {
+    public void printAlbumsCount() {
         System.out.println(nameArtist + " have a " + albums);
     }
 

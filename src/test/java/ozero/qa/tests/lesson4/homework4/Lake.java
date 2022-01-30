@@ -7,7 +7,7 @@ public class Lake {
     int width;
     double depth;
 
-    public void howToDeep() {
+    public void getDeep() {
         System.out.println("Lake " + name + " have a depht " + depth + " km");
     }
 
@@ -16,7 +16,7 @@ public class Lake {
         depth = depth + 1.4;
     }
 
-    public void whereThisLake() {
+    public void getLocationLake() {
         System.out.println("Lake " + name + " in " + country +" km");
     }
 }
