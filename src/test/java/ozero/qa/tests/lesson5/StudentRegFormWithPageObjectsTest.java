@@ -1,16 +1,20 @@
-package ozero.qa.tests.lesson2.homework2;
+package ozero.qa.tests.lesson5;
 
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import ozero.qa.pages.RegistrationPage;
 
 import java.io.File;
 
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selectors.*;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selectors.byText;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.open;
 
-public class AutomationBestPracticeTests {
+public class StudentRegFormWithPageObjectsTest {
+
+    RegistrationPage registrationPage = new RegistrationPage();
 
     File testFile = new File("src/test/resources/img/test_file.png");
 
@@ -23,17 +27,15 @@ public class AutomationBestPracticeTests {
 
     @Test
     void successTest() {
-        open("https://demoqa.com/automation-practice-form");
+        registrationPage.openPage()
+                        .typeFirstName("Maxim")
+                        .typeLastName("Zetter");
 
-        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
-        $("#firstName").setValue("Max");
-        $("#lastName").setValue("Zero");
         $("#userEmail").setValue("ozero@mail.com");
         $("[for=\"gender-radio-3\"]").click();
-        $("#dateOfBirthInput").click();
-        $(".react-datepicker__month-select").selectOption("July");
-        $(".react-datepicker__year-select").selectOption("2008");
-        $(".react-datepicker__day--030:not(.react-datepicker__day--outside-month)").click();
+
+        registrationPage.calendarComponent.setDate("30", "July", "2008");
+
         $("#subjectsInput").setValue("Math").pressEnter();
         $("#hobbiesWrapper").$(byText("Music")).click();
         $("#uploadPicture").uploadFromClasspath("img/1.png");
@@ -50,6 +52,8 @@ public class AutomationBestPracticeTests {
         //
         $(".table-responsive").shouldHave(text("Student Name"))
                 .parent().shouldHave(text("Max Zero"));
+
+        registrationPage.checkResultsValue("Student Name", "Maxim Zetter");
 
         $(".table").shouldHave(text("Student Name"), text("Max Zero"));
         $(".table").shouldHave(text("Student Email"), text("ozero@mail.com"));
