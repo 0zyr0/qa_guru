@@ -3,7 +3,6 @@ package ozero.qa.tests.lesson5;
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import ozero.qa.pages.RegistrationPage;
 
 import java.io.File;
 
@@ -11,29 +10,39 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
+import static ozero.qa.tests.lesson5.TestData.userEmail;
 
-public class StudentRegFormWithPageObjectsTest {
-
-    RegistrationPage registrationPage = new RegistrationPage();
+public class SudentFormWithTestDataTests {
 
     File testFile = new File("src/test/resources/img/test_file.png");
 
+    String firstName = "Alex",
+            lastName = "Egorov";
+
     @BeforeAll
     static void beforeAll() {
+        Configuration.baseUrl = "https://demoqa.com";
         Configuration.browserSize = "1920x1080";
     }
 
+
     @Test
     void successTest() {
-        registrationPage.openPage()
-                        .typeFirstName("Maxim")
-                        .typeLastName("Zetter");
 
-        $("#userEmail").setValue("ozero@mail.com");
+
+
+
+        open("https://demoqa.com/automation-practice-form");
+
+        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
+        $("#firstName").setValue(firstName);
+        $("#lastName").setValue(lastName);
+        $("#userEmail").setValue(userEmail);
         $("[for=\"gender-radio-3\"]").click();
-
-        registrationPage.calendarComponent.setDate("30", "July", "2008");
-
+        $("#dateOfBirthInput").click();
+        $(".react-datepicker__month-select").selectOption("July");
+        $(".react-datepicker__year-select").selectOption("2008");
+        $(".react-datepicker__day--030:not(.react-datepicker__day--outside-month)").click();
         $("#subjectsInput").setValue("Math").pressEnter();
         $("#hobbiesWrapper").$(byText("Music")).click();
         $("#uploadPicture").uploadFromClasspath("img/1.png");
@@ -49,11 +58,9 @@ public class StudentRegFormWithPageObjectsTest {
 
         //
         $(".table-responsive").shouldHave(text("Student Name"))
-                .parent().shouldHave(text("Max Zero"));
+                .parent().shouldHave(text(firstName + " " + lastName));
 
-        registrationPage.checkResultsValue("Student Name", "Maxim Zetter");
-
-        $(".table").shouldHave(text("Student Name"), text("Max Zero"));
+        $(".table").shouldHave(text("Student Name"), text(firstName + " " + lastName));
         $(".table").shouldHave(text("Student Email"), text("ozero@mail.com"));
         $(".table").shouldHave(text("Gender"), text("Other"));
         $(".table").shouldHave(text("Mobile"), text("8800555353"));

@@ -1,20 +1,33 @@
-package ozero.qa.tests.lesson5;
+package ozero.qa.tests.lesson5.homework5;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.SelenideElement;
+import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ozero.qa.pages.RegistrationPage;
 
 import java.io.File;
+import java.util.Locale;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
-public class StudentRegFormWithPageObjectsTest {
+public class StudentFormHW5PageObjectFakerTest {
 
     RegistrationPage registrationPage = new RegistrationPage();
+
+
+    Faker faker = new Faker(new Locale("ru"));
+    String firstName = faker.name().firstName();
+    String lastName = faker.name().lastName();
+    String userEmail = faker.internet().emailAddress();
+    String phoneNumber = faker.phoneNumber().phoneNumber();
+    String address = faker.address().fullAddress();
+    String currentAddress = faker.lebowski().quote() + faker.medical().medicineName();
+
 
     File testFile = new File("src/test/resources/img/test_file.png");
 
@@ -26,24 +39,40 @@ public class StudentRegFormWithPageObjectsTest {
     @Test
     void successTest() {
         registrationPage.openPage()
-                        .typeFirstName("Maxim")
-                        .typeLastName("Zetter");
+                .typeFirstName(firstName)
+                .typeLastName(lastName)
+                .typeEmail(userEmail)
+                .markRadioButton(2)
+                .typePhoneNumber(phoneNumber);
 
-        $("#userEmail").setValue("ozero@mail.com");
-        $("[for=\"gender-radio-3\"]").click();
+        registrationPage.scrollComponent.scrollPage($("#dateOfBirthInput"));
 
         registrationPage.calendarComponent.setDate("30", "July", "2008");
+        registrationPage.subjectDictionaryComponent.subjectInput("Math", "Physics", "Commerce");
 
-        $("#subjectsInput").setValue("Math").pressEnter();
+        //Остановился здесь
+
         $("#hobbiesWrapper").$(byText("Music")).click();
         $("#uploadPicture").uploadFromClasspath("img/1.png");
-        $("#userNumber").setValue("8800555353");
         $("#currentAddress").setValue("www.leningrad-spb.ru");
         $("#state").scrollTo().click();
+
+        registrationPage.stateCityDropdownComponent.selectCountryAndCity( "NCR", "Noida");
+
+
+
+
+        $("#hobbiesWrapper").$(byText("Music")).click();
+        $("#uploadPicture").uploadFromClasspath("img/1.png");
+        $("#currentAddress").setValue("www.leningrad-spb.ru");
+        $("#state").scrollTo().click();
+
         $("#stateCity-wrapper").$(byText("NCR")).click();
         $("#city").click();
         $("#stateCity-wrapper").$(byText("Noida")).click();
         $("#submit").click();
+
+
 
         $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
 
