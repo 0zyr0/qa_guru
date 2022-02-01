@@ -1,7 +1,6 @@
 package ozero.qa.tests.lesson5.homework5;
 
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.SelenideElement;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -14,20 +13,22 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
+import static ozero.qa.utils.RandomUtils.getRandomPhone;
 
 public class StudentFormHW5PageObjectFakerTest {
 
     RegistrationPage registrationPage = new RegistrationPage();
 
 
-    Faker faker = new Faker(new Locale("ru"));
-    String firstName = faker.name().firstName();
-    String lastName = faker.name().lastName();
-    String userEmail = faker.internet().emailAddress();
-    String phoneNumber = faker.phoneNumber().phoneNumber();
-    String address = faker.address().fullAddress();
-    String currentAddress = faker.lebowski().quote() + faker.medical().medicineName();
-
+    Faker fakerRus = new Faker(new Locale("ru"));
+    Faker fakerEng = new Faker(new Locale("en"));
+    String firstName = fakerRus.name().firstName();
+    String lastName = fakerRus.name().lastName();
+    String userEmail = fakerEng.internet().emailAddress();
+    String phoneNumber = getRandomPhone();
+    String filePath = "img/1.png";
+    String hobby = "Music";
+    String address = fakerRus.address().fullAddress();
 
     File testFile = new File("src/test/resources/img/test_file.png");
 
@@ -38,6 +39,7 @@ public class StudentFormHW5PageObjectFakerTest {
 
     @Test
     void successTest() {
+        //ACTIONS способ 1
         registrationPage.openPage()
                 .typeFirstName(firstName)
                 .typeLastName(lastName)
@@ -45,54 +47,56 @@ public class StudentFormHW5PageObjectFakerTest {
                 .markRadioButton(2)
                 .typePhoneNumber(phoneNumber);
 
-        registrationPage.scrollComponent.scrollPage($("#dateOfBirthInput"));
-
+        registrationPage.scrollComponent.scrollPageOnDate();
         registrationPage.calendarComponent.setDate("30", "July", "2008");
         registrationPage.subjectDictionaryComponent.subjectInput("Math", "Physics", "Commerce");
-
-        //Остановился здесь
-
-        $("#hobbiesWrapper").$(byText("Music")).click();
-        $("#uploadPicture").uploadFromClasspath("img/1.png");
-        $("#currentAddress").setValue("www.leningrad-spb.ru");
-        $("#state").scrollTo().click();
-
+        registrationPage.markHobbies(hobby);
+        registrationPage.uploadPicture(filePath);
+        registrationPage.typeAddress(address);
+        registrationPage.scrollComponent.scrollPageOnState();
         registrationPage.stateCityDropdownComponent.selectCountryAndCity( "NCR", "Noida");
+        registrationPage.submitForm();
+
+//        ACTIONS способ 2
+//        registrationPage.openPage()
+//                .typeFirstName(firstName)
+//                .typeLastName(lastName)
+//                .typeEmail(userEmail)
+//                .markRadioButton(2)
+//                .typePhoneNumber(phoneNumber)
+//                .scrollComponent.scrollPageOnDate();
+//
+//        registrationPage.calendarComponent.setDate("30", "July", "2008");
+//        registrationPage.subjectDictionaryComponent.subjectInput("Math", "Physics", "Commerce");
+//        registrationPage.markHobbies(hobby)
+//                        .uploadPicture(filePath)
+//                        .typeAddress(address)
+//                        .scrollComponent.scrollPageOnState();
+//
+//        registrationPage.stateCityDropdownComponent.selectCountryAndCity( "NCR", "Noida");
+//        registrationPage.submitForm();
+
+        //ASSERTS
+
+        registrationPage.checkHeaderForm("Thanks for submitting the form");
 
 
+        registrationPage.сheckTableValues("Student Name", firstName + " " + lastName);
+        registrationPage.сheckTableValues("Student Email", userEmail);
 
+        registrationPage.сheckTableValues("Gender", "Female");
+        registrationPage.сheckTableValues("Mobile", phoneNumber);
+        registrationPage.сheckTableValues("Date of Birth", "30 July,2008");
 
-        $("#hobbiesWrapper").$(byText("Music")).click();
-        $("#uploadPicture").uploadFromClasspath("img/1.png");
-        $("#currentAddress").setValue("www.leningrad-spb.ru");
-        $("#state").scrollTo().click();
+        registrationPage.сheckTableValues("Hobbies", hobby);
+        registrationPage.сheckTableValues("Picture", "1.png");
+        registrationPage.сheckTableValues("Address", address);
+        registrationPage.сheckTableValues("State and City", "NCR Noida");
 
-        $("#stateCity-wrapper").$(byText("NCR")).click();
-        $("#city").click();
-        $("#stateCity-wrapper").$(byText("Noida")).click();
-        $("#submit").click();
+        registrationPage.сheckTableValues("Subjects", "Maths, Physics, Commerce");
+        //registrationPage.сheckTableValues("Subjects", "Math" + ", " + "Physics" +", " + "Commerce");
 
-
-
-        $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
-
-        //
-        $(".table-responsive").shouldHave(text("Student Name"))
-                .parent().shouldHave(text("Max Zero"));
-
-        registrationPage.checkResultsValue("Student Name", "Maxim Zetter");
-
-        $(".table").shouldHave(text("Student Name"), text("Max Zero"));
-        $(".table").shouldHave(text("Student Email"), text("ozero@mail.com"));
-        $(".table").shouldHave(text("Gender"), text("Other"));
-        $(".table").shouldHave(text("Mobile"), text("8800555353"));
-        $(".table").shouldHave(text("Date of Birth"), text("30 July,2008"));
-        $(".table").shouldHave(text("Subjects"), text("Maths"));
-        $(".table").shouldHave(text("Hobbies"), text("Music"));
-        $(".table").shouldHave(text("Picture"), text("1.png"));
-        $(".table").shouldHave(text("Address"), text("www.leningrad-spb.ru"));
-        $(".table").shouldHave(text("State and City"), text("NCR Noida"));
-        $("#closeLargeModal").scrollTo().pressEnter();
+        registrationPage.scrollComponent.scrollAndClose();
     }
 
 }

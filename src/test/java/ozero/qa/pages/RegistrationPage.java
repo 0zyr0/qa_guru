@@ -2,6 +2,7 @@ package ozero.qa.pages;
 
 import com.codeborne.selenide.SelenideElement;
 import com.github.javafaker.Faker;
+import com.github.javafaker.File;
 import ozero.qa.pages.components.CalendarComponent;
 import ozero.qa.pages.components.ScrollComponent;
 import ozero.qa.pages.components.StateCityDropdownComponent;
@@ -22,7 +23,9 @@ public class RegistrationPage {
             radioButtonFeMale = $("[for=\"gender-radio-2\"]"),
             radioButtonOther = $("[for=\"gender-radio-1\"]"),
             resultsTable = $(".table-responsive"),
-            mobilePhoneNumber = $("#userNumber");
+            mobilePhoneNumber = $("#userNumber"),
+            headerTableReg = $("#example-modal-sizes-title-lg"),
+            tableRegistration = $(".table");
 
     public CalendarComponent calendarComponent = new CalendarComponent();
     public SubjectDictionaryComponent subjectDictionaryComponent = new SubjectDictionaryComponent();
@@ -88,13 +91,44 @@ public class RegistrationPage {
         return this;
     }
 
+    public RegistrationPage checkHeaderForm(String assertedValue) {
 
-    public RegistrationPage uploadPicture() {
-        $("#uploadPicture").uploadFromClasspath("img/1.png");
+        headerTableReg.shouldHave(text(assertedValue));
 
         return this;
     }
 
+    public RegistrationPage сheckTableValues(String name, String value) {
+        tableRegistration.shouldHave(text(name), text(value));
+
+        return this;
+    }
+
+
+    public RegistrationPage uploadPicture(String filePath) {
+        $("#uploadPicture").uploadFromClasspath(filePath);
+
+        return this;
+    }
+
+
+    public RegistrationPage markHobbies(String hobby) {
+        $("#hobbiesWrapper").$(byText(hobby)).click();
+
+        return this;
+    }
+
+    public RegistrationPage typeAddress(String address) {
+        $("#currentAddress").setValue(address);
+
+        return this;
+    }
+
+    public RegistrationPage submitForm() {
+        $("#submit").click();
+
+        return this;
+    }
 
 
     /*
