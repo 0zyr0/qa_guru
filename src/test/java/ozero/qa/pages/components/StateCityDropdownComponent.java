@@ -7,11 +7,11 @@ public class StateCityDropdownComponent {
 
 
     public void selectCountryAndCity(String country, String city) {
-        //Способ 1
+         //Способ 1
         $("#stateCity-wrapper").$(byText(country)).click();
         $("#city").click();
         $("#stateCity-wrapper").$(byText(city)).click();
-
+//
         //Способ 2
 //        switch (country) {
 //
