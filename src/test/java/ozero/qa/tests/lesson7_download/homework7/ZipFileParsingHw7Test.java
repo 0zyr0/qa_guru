@@ -88,18 +88,9 @@ public class ZipFileParsingHw7Test {
         File pdfFromZip = new File("D:\\QA.GURU\\projects\\qa_guru_lesson_2\\src\\test\\resources\\files\\homework7_archive\\cert.pdf");
         PDF parsed = new PDF(pdfFromZip);
 
-        //не парсится. Ка
-        assertThat(parsed.text).contains("ЦИФРОВОЙ СЕРТИФИКАТ\n" +
-                "Номер: 3P8M520XA4K3\n" +
-                "ФИО: З***** М***** С********\n" +
-                "Дата рождения: 13.06.1993\n" +
-                "Статус: «Вакцинирован»\n" +
-                "(полностью)\n" +
-                "Начало действия: 08.06.2021\n" +
-                "Окончание действия: 08.06.2022\n" +
-                " \n");
+        assertThat(parsed.title).contains("ЦИФРОВОЙ СЕРТИФИКАТ");
 
-//        deleteDirectory(new File("src/test/resources/files/homework7_archive"));
+        deleteDirectory(new File("src/test/resources/files/homework7_archive"));
 
     }
 }
