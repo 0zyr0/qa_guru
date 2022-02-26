@@ -38,14 +38,7 @@ public class ZipFileParsingHw7Test {
     @Test
     void readZipAndCheckFiles() throws Exception {
 
-
-        ZipFile zipFile = new ZipFile("D:\\QA.GURU\\projects\\qa_guru_lesson_2\\src\\test\\resources\\files\\homework7_archive.zip");
-
-
-//        SecurityManager securityManager = new SecurityManager();
-//
-//                securityManager.checkRead(zipFile);
-
+        ZipFile zipFile = new ZipFile("src/test/resources/files/homework7_archive.zip");
         Enumeration<? extends ZipEntry> entries = zipFile.entries();
 
         while(entries.hasMoreElements()){
@@ -57,8 +50,6 @@ public class ZipFileParsingHw7Test {
 
             }
         }
-
-
 
         fileUnzipper.unzip();
 
@@ -85,12 +76,9 @@ public class ZipFileParsingHw7Test {
                             "3. АФТ ABK");
         }
 
-        File pdfFromZip = new File("D:\\QA.GURU\\projects\\qa_guru_lesson_2\\src\\test\\resources\\files\\homework7_archive\\cert.pdf");
+        File pdfFromZip = new File("src/test/resources/files/homework7_archive/cert.pdf");
         PDF parsed = new PDF(pdfFromZip);
-
         assertThat(parsed.title).contains("ЦИФРОВОЙ СЕРТИФИКАТ");
-
         deleteDirectory(new File("src/test/resources/files/homework7_archive"));
-
     }
 }

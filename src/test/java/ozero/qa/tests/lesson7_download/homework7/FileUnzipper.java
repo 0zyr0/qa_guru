@@ -33,16 +33,10 @@ public class FileUnzipper {
                     System.out.print("dir  : " + entry.getName());
                     String destPath = this.unzipDir + File.separator + entry.getName();
                     System.out.println(" => " + destPath);
-
-                    //todo check destPath for Zip Slip problem - see further down this page.
-
-
                     File file = new File(destPath);
                     file.mkdirs();
                 } else {
                     String destPath = this.unzipDir + File.separator + entry.getName();
-
-                    //todo check destPath for Zip Slip problem - see further down this page.
 
                     try(InputStream inputStream = zipFile.getInputStream(entry);
                         FileOutputStream outputStream = new FileOutputStream(destPath);
@@ -61,10 +55,4 @@ public class FileUnzipper {
         }
     }
 
-//    private boolean isValidDestPath(String destPath) {
-//        if ()
-//        // validate the destination path of a ZipFile entry,
-//        // and return true or false telling if it's valid or not.
-//        return null;
-//    }
 }
